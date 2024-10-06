@@ -1,0 +1,31 @@
+services:
+  frontend:
+    build: react.js_app/
+    ports:
+      - "3000:3000"
+    networks:
+      - chatapp
+  backend:
+    build: express.js_server/
+    ports:
+      - "4000:4000"
+    networks:
+      - chatapp
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - chatapp
+    volumes:
+      - mongo-data:/data/db
+
+networks:
+  chatapp:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
