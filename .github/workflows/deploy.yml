@@ -3,7 +3,7 @@ name: Deploy MERN App to Local Runner
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build-and-deploy:
@@ -20,20 +20,20 @@ jobs:
       
       - name: Install dependencies for Backend
         run: |
-          cd mern-app-server
+          cd express.js_server
           npm install
       
       - name: Install dependencies for Frontend
         run: |
-          cd mern-app-client
+          cd react.js_app
           npm install
 
       - name: Build Frontend
         run: |
-          cd mern-app-client
+          cd react.js_app
           npm run build
 
       - name: Deploy Backend
         run: |
-          cd mern-app-server
+          cd express.js_server
           npm start
