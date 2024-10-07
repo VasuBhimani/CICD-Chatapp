@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect, useContext } from "react";
 import FriendsList from "../components/FriendsList";
 import Chat from "../components/Chat";
