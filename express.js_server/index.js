@@ -1,4 +1,3 @@
-// SERVER SETUP
 require('dotenv').config();
 const express = require('express');
 const app = express();
@@ -6,7 +5,7 @@ const http = require("http");
 const cors = require("cors");
 const mongoose = require('mongoose');
 
-// console.log('MongoDB URI:',  process.env.MONGO_URI);
+console.log('MongoDB URI:',  process.env.MONGO_URI);
 mongoose.connect(process.env.MONGO_URI);
 // mongoose.connect('mongodb://mongo:27017/chatapp'); //connect to db
 // client = MongoClient('mongodb://mongodb:27017/')
