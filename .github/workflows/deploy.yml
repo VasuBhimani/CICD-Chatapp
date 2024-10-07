@@ -17,20 +17,20 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-
-      - name: Install and Build
+      
+      - name: Install dependencies for Backend
         run: |
-          Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-          
-          # Install dependencies for Backend
           cd express.js_server
           npm install
-
-          # Install dependencies for Frontend
-          cd ../react.js_app
+      
+      - name: Install dependencies for Frontend
+        run: |
+          cd react.js_app
           npm install
 
-          # Build Frontend
+      - name: Build Frontend
+        run: |
+          cd react.js_app
           npm run build
 
       - name: Deploy Backend
