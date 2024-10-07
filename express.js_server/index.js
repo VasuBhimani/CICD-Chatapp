@@ -4,8 +4,10 @@ const app = express();
 const http = require("http");
 const cors = require("cors");
 const mongoose = require('mongoose');
+require('dotenv').config();
+mongoose.connect(process.env.MONGO_URI);
 
-mongoose.connect('mongodb://mongo:27017/chatapp'); //connect to db
+// mongoose.connect('mongodb://mongo:27017/chatapp'); //connect to db
 // client = MongoClient('mongodb://mongodb:27017/')
 const db = mongoose.connection;
 db.on('error', (error)=> console.error(error));
