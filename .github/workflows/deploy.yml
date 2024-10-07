@@ -38,5 +38,5 @@ jobs:
           MONGO_URI: ${{ secrets.MONGO_URI }}  # Use the secret here
         run: |
           cd express.js_server
-          npm start &  # Run in the background
+          Start-Process -NoNewWindow -File npm -ArgumentList 'start'
           echo "Backend is running"
