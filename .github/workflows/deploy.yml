@@ -38,4 +38,4 @@ jobs:
           MONGO_URI: ${{ secrets.MONGO_URI }}  # Use the secret here
         run: |
           cd express.js_server
-          npm start
+          node start
