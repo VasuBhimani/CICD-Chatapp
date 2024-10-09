@@ -1,10 +1,15 @@
+
+
+
 services:
+
   frontend:
     build: react.js_app/
     ports:
       - "3000:3000"
     networks:
       - chatapp
+
   backend:
     build: express.js_server/
     ports:
@@ -13,6 +18,9 @@ services:
       - chatapp
     depends_on:
       - mongo
+    environment:
+      MONGO_URI: mongodb://mongo:27017/mydatabase 
+
   mongo:
     image: mongo:latest
     ports:

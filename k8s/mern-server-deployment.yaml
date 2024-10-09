@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mern-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mern-server
+  template:
+    metadata:
+      labels:
+        app: mern-server
+    spec:
+      containers:
+      - name: mern-server
+        # Replace `your-docker-username` with your Docker Hub username
+        image: bhimanivasu/mernapp:backend
+        ports:
+        - containerPort: 3000
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: mern-app-config
+              key: DATABASE_URL
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: mern-app-config
+              key: NODE_ENV
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: mern-app-config
+              key: PORT
+        - name: CLIENT_URL
+          valueFrom:
+            configMapKeyRef:
+              name: mern-app-config
+              key: CLIENT_URL
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mern-server-service
+spec:
+  selector:
+    app: mern-server
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP

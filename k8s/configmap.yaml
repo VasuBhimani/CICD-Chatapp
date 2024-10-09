@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mern-app-config
+data:
+  # Database connection string. Change `mongodb-service` and `mydatabase` as per your project needs.
+  DATABASE_URL: mongodb+srv://admin:admin@chatapp.ijgsv.mongodb.net/chatapp
+
+  # Set the Node.js environment for your server
+  NODE_ENV: production
+
+  # Server port. Update if you use a different port.
+  PORT: "3000"
+
+  # Client URL. Change `mern-client-service` if your client service name is different.
+  CLIENT_URL: http://mern-client-service:3000

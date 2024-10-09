@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mern-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mern-client
+  template:
+    metadata:
+      labels:
+        app: mern-client
+    spec:
+      containers:
+      - name: mern-client
+        # Replace `your-docker-username` with your Docker Hub username
+        image: bhimanivasu/mernapp:frontend
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mern-client-service
+spec:
+  selector:
+    app: mern-client
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP
