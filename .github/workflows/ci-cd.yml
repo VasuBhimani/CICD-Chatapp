@@ -10,28 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 2: Set up Docker Buildx
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      # Step 3: Build and Push Docker images for server and client
+      # Step 3: Build and push server Docker image
       - name: Build and push server Docker image
         run: |
-          # Replace `your-docker-username` with your actual Docker Hub username
-          docker build -t bhimanivasu/menrapp:latest -f express.js_server/Dockerfile .
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-          docker push bhimanivasu/mernapp:frontned
+          docker build -t bhimanivasu/menrapp:backend -f express.js_server/Dockerfile .
+          docker push bhimanivasu/menrapp:backend
 
+      # Step 4: Build and push client Docker image
       - name: Build and push client Docker image
         run: |
-          # Replace `your-docker-username` with your actual Docker Hub username
-          docker build -t bhimanivasu/mernapp:backend -f react.js_app/Dockerfile .
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-          docker push bhimanivasu/mernapp:backend
+          docker build -t bhimanivasu/menrapp:frontend -f react.js_app/Dockerfile .
+          docker push bhimanivasu/menrapp:frontend
+
 
       # Step 4: Set up kubectl
       - name: Set up kubectl
@@ -39,11 +35,13 @@ jobs:
         with:
           version: v1.24.0
 
-      # Step 5: Set up Kubeconfig
+# Step 5: Set up Kubeconfig
       - name: Configure kubectl with Kubeconfig
         run: |
-          # `KUBE_CONFIG_DATA` is a base64-encoded Kubeconfig file stored in GitHub Secrets
+          mkdir -p $HOME/.kube      # Ensure the .kube directory exists
           echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 --decode > $HOME/.kube/config
+          cat $HOME/.kube/config     # Debug: print kubeconfig to check it
+
 
       # Step 6: Deploy MongoDB, MERN App, and HPA to Kubernetes
       - name: Deploy MongoDB and MERN App to Kubernetes
