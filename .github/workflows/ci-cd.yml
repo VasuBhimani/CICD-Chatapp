@@ -35,9 +35,10 @@ jobs:
         with:
           version: v1.24.0
 
-      # Step 5: Set up Kubeconfig
       - name: Configure kubectl with Kubeconfig
         run: |
+          # Create the .kube directory if it doesn't exist
+          mkdir -p $HOME/.kube  
           # `KUBE_CONFIG_DATA` is a base64-encoded Kubeconfig file stored in GitHub Secrets
           echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 --decode > $HOME/.kube/config
 
